@@ -1,0 +1,6 @@
+<form (submit)="handleSubmit()">
+  <label>Name: </label>
+  <input [(ngModel)]="name" [ngModelOptions]="{standalone: true}">
+  <input type="submit">
+</form>
+<i>{{name}}</i>

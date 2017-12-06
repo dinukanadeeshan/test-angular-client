@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Http} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  text;
+
+  constructor(private  http: Http) {
+  }
+
+
+  fetchDataFromServer() {
+    this.text = this.http.get('/api/v1/').map(res => res.text());
+  }
 }
