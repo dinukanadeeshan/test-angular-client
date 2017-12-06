@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, Headers} from '@angular/http';
+import {RequestOptions} from '@angular/http';
 
 @Component({
   selector: 'app-add-details',
@@ -9,6 +10,7 @@ import {Http} from '@angular/http';
 export class AddDetailsComponent implements OnInit {
 
   name: string;
+  output: any;
 
   constructor(private http: Http) {
   }
@@ -16,11 +18,17 @@ export class AddDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+  private extractData(res) {
+    const body = res.json();
+    return body.data;
+  }
+
   handleSubmit() {
     console.log('submitted');
-    const s = this.http.post('/api/v2/', '').subscribe(res => res.text());
-    console.log(s);
-
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
+    const body = {name: this.name};
+    const s = this.http.post('/api/v2/', body, options).toPromise().then(this.extractData).catch(e => console.log(e));
   }
 
 }
